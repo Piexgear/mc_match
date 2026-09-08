@@ -7,7 +7,11 @@ authors = [
     { name = "Piexgear", email = "davidpuscas@live.se" }
 ]
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "matplotlib>=3.11.1",
+    "numpy>=2.5.3",
+    "pandas>=3.0.5",
+]
 
 [project.scripts]
 mc-match = "mc_match:main"
