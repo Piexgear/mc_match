@@ -110,12 +110,12 @@ Mahindra,India,Xpulse 200,199.6,18.1,17.3,5-speed manual,Chain drive,2,2019,Adve
 Mahindra,India,Gusto 125,124.9,10.7,10.5,4-speed manual,Chain drive,2,2017,Commuter,Standard,"Single-cylinder, air-cooled, OHC",1,7698.9
 Mahindra,India,Duro DZire,110.0,8.5,8.5,4-speed manual,Chain drive,2,2019,Commuter,Standard,"Single-cylinder, air-cooled, OHC",1,6048.9
 Mahindra,India,Centuro 100,106.7,8.5,8.5,4-speed manual,Chain drive,2,2014,Commuter,Standard,"Single-cylinder, air-cooled, OHC",1,5950.45
-Moto Guzzi,Italy,V85 TT,853.0,80.0,100.059516,6-speed manual,Shaft drive,2,2022,Adventure,Standard,V-twin,90,169400.0
-Moto Guzzi,Italy,V9 Cruiser,900.0,65.0,80.535708,6-speed manual,Shaft drive,2,2016,Cruiser,Cruiser,V-twin,90,149600.0
-Moto Guzzi,Italy,V9 Roamer,900.0,65.0,80.535708,6-speed manual,Shaft drive,2,2016,Cruiser,Cruiser,V-twin,90,146300.0
-Moto Guzzi,Italy,Audace,900.0,75.0,97.61904,6-speed manual,Shaft drive,2,2019,Cruiser,Cruiser,V-twin,90,162800.0
-Moto Guzzi,Italy,Eldorado,1400.0,96.0,116.60052,6-speed manual,Shaft drive,2,2016,Classic,Cruiser,V-twin,90,192500.0
-Moto Guzzi,Italy,MGX-21,1700.0,115.0,120.66798,6-speed automatic,Shaft drive,2,2021,Cruiser,Cruiser,V-twin,90,273900.0
+Moto Guzzi,Italy,V85 TT,853.0,80.0,100.059516,6-speed manual,Shaft drive,2,2022,Adventure,Standard,V-twin,2,169400.0
+Moto Guzzi,Italy,V9 Cruiser,900.0,65.0,80.535708,6-speed manual,Shaft drive,2,2016,Cruiser,Cruiser,V-twin,2,149600.0
+Moto Guzzi,Italy,V9 Roamer,900.0,65.0,80.535708,6-speed manual,Shaft drive,2,2016,Cruiser,Cruiser,V-twin,2,146300.0
+Moto Guzzi,Italy,Audace,900.0,75.0,97.61904,6-speed manual,Shaft drive,2,2019,Cruiser,Cruiser,V-twin,2,162800.0
+Moto Guzzi,Italy,Eldorado,1400.0,96.0,116.60052,6-speed manual,Shaft drive,2,2016,Classic,Cruiser,V-twin,2,192500.0
+Moto Guzzi,Italy,MGX-21,1700.0,115.0,120.66798,6-speed automatic,Shaft drive,2,2021,Cruiser,Cruiser,V-twin,2,273900.0
 MV Agusta,Italy,F3 800 RR,798.0,147.0,88.0,6-speed sequential,Chain,2,2023,Classy,Sport,3-cylinder,3,207899.99999999997
 MV Agusta,Italy,Brutale 1000 RR,998.0,208.0,116.0,6-speed sequential,Chain,2,2023,Aggressive,Naked/Street,3-cylinder,3,279400.0
 MV Agusta,Italy,Turismo Veloce Lusso,800.0,110.0,86.0,6-speed sequential,Shaft,2,2023,Classic,Adventure,3-cylinder,3,250800.0
