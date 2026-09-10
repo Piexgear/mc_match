@@ -11,7 +11,6 @@ jupyter_core==5.9.1
 kiwisolver==1.5.1
 matplotlib==3.11.1
 matplotlib-inline==0.2.2
--e git+ssh://git@github.com/Piexgear/mc_match.git@3dc6ac28c2186d02f1db32d4e0ad9647a1f429c5#egg=mc_match
 narwhals==2.25.0
 nest-asyncio2==1.7.2
 numpy==2.5.3
