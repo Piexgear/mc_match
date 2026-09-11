@@ -9,7 +9,7 @@ st.write("Please fill in the information needed to see the value on your MC")
 @st.cache_resource
 def load_model():
     # Creating the path for the fetching of the valutation model
-    model_path = Path(__file__).parent.parent / "models" / "valutation_model.pkl"
+    model_path = Path(__file__).parent.parent / "models" / "Valuation_model.joblib"
     # returning the path
     return joblib.load(model_path)
 

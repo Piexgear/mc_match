@@ -1,7 +1,5 @@
 import streamlit as st
 
-
-
 home = st.Page(
     "Pages/home.py",
     title="Home",
