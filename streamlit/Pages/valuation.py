@@ -87,6 +87,14 @@ brand = st.selectbox(
     ]
 )
 
+model = st.text_input(label="Model")
+
+country = st.text_input(label="Country")
+
+transmission = st.text_input(label="Transmission")
+
+drivetrain = st.text_input(label="Drivetrain")
+
 Looks = st.selectbox(
     "Looks",
     ["Modern ","Classic", "Sport", "Adventure", "Retro", "Urban", "Off-road", "Cruiser", "Practical"]
@@ -115,8 +123,6 @@ number_of_cylinder = st.selectbox(
     [1, 2, 3, 4]
 )
 
-price = 1
-
 Valuation = pd.DataFrame({
         "Company": [brand],
         "Looks": [Looks],
@@ -127,8 +133,20 @@ Valuation = pd.DataFrame({
         "Horsepower": [hp],
         "Number of Seating": [nos],
         "Number of Cylinders": [number_of_cylinder],
-        "Price (SEK)": price
+        "Model": [model],
+        "Country of Origin": [country], 
+        "Transmission Type": [transmission], 
+        "Drivetrain": [drivetrain]
     })
+
+# categorical_features = [
+#     "Model",
+#     "Country of Origin", 
+#     "Transmission Type", 
+#     "Drivetrain"
+# ]
+
+
 
 @st.cache_resource
 def load_model():
