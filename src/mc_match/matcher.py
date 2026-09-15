@@ -1,8 +1,15 @@
-import pandas as pd 
+from pathlib import Path
+import pandas as pd
+
+
+BASE_DIR = Path(__file__).resolve().parents[2]
+DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
+
 
 def load_motorcycles():
-    df = pd.read_csv("../../dataset/motorcycles_clean.csv")
+    df = pd.read_csv(DATA_PATH)
     return df
+
 
 def recommend_motorcycles(
         usage, 
