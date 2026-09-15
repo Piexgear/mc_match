@@ -2,49 +2,110 @@ import streamlit as st
 import joblib
 from pathlib import Path
 import pandas as pd
+import sys
+from pathlib import Path
 
-st.title("Mc mathcing")
-st.write("Please fill in the fields to see your kind of motorcykle")
+sys.path.append(str(Path(__file__).resolve().parents[2]))
 
-Looks = st.selectbox(
-    "Looks",
+from src.mc_match.matcher import recommend_motorcycles
+
+st.title("Motorcycle Match")
+
+st.write("Find the motorcycle that best matches your preferences.")
+
+#User preferences
+
+usage = st.selectbox(
+    "What till you mainly use the motorcycle for?",
+    ["Street", "Cruise", "Race", "Off-road", "Touring"]
+)
+
+preferred_looks = st.selectbox(
+    "What style do you prefer?",
     ["Modern ","Classic", "Sport", "Adventure", "Retro", "Urban", "Off-road", "Cruiser", "Practical"]
 )
-Price = st.number_input("Price (SEK)", min_value=1000, max_value=1000000, value=5000)
-Year = st.number_input("Year", min_value=1960, max_value=2026, value=1960)
-AoU = st.selectbox(
-    "Area of use",
-    ["Off-road", "Touring", "Street", "Race", "Cruise"]
+
+max_price = st.number_input(
+    "Maximum budget (SEK)",
+    min_value=10000,
+    max_value=1000000,
+    value=80000,
+    step=5000
 )
-hp = st.selectbox(
-    "Horse Power",
-    ["<50", "<100", "<150", "Much power as possible"]
+
+min_cc, max_cc = st.slider(
+    "Engine size (cc)",
+    min_value=100,
+    max_value=2500,
+    value=(600, 1000),
+    step=50
 )
-nos = st.selectbox(
+
+min_hp, max_hp = st.slider(
+    "Horsepower",
+    min_value=10,
+    max_value=500,
+    value=(70, 120),
+    step=5
+)
+
+seats = st.selectbox(
     "Number of seats",
-    [1, 2]
+    [1, 2],
+    index=1
 )
 
-match_mc = pd.DataFrame({
-        "Year": [Year],
-        "Looks": [Looks],
-        "Usage Type": [AoU],
-        "horse power": [hp]
-        #"numer of seats": []
-    })
+if st.button("Find my motorcycle"):
+    result = recommend_motorcycles( 
+        usage=usage, 
+        max_price=max_price, 
+        min_cc=min_cc, 
+        max_cc=max_cc, 
+        min_hp=min_hp, 
+        max_hp=max_hp, 
+        seats=seats, 
+        preferred_looks=preferred_looks 
+    )
 
-@st.cache_resource
-def load_model():
-    # Creating the path for the fetching of the valutation model
-    model_path = Path(__file__).parent.parent / "models" / "motorcycle_classifier.joblib"
-    # returning the path
-    return joblib.load(model_path)
+    if result.empty:
+        st.warning(
+            "No motorcycles match all of your requirements."
+            "Try adjusting your filters."
+        )
 
-model = load_model()
-st.success("Model loaded successfuly!")
+    else:
+        st.subheader("Your top matches")
+        for _, motorcycle in result.iterrows():
+            st.write(
+                f"### {motorcycle['Company']} {motorcycle['Model']}"
+            )
+            st.write(
+                f"**Price:** {motorcycle['Price (SEK)']:,.0f} SEK"
+            )
+            st.write(
+                f"**Engine:** {motorcycle['Number of cc']:.0f} cc | " f"**Horsepower:** {motorcycle['Horsepower']:.0f} hp"
+            ) 
+            st.write( 
+                f"**Style:** {motorcycle['Looks']} | " f"**Usage:** {motorcycle['Usage Type']}" 
+            ) 
+            st.write( 
+                f"**Match Score:** {motorcycle['Match Score']:.0%}" 
+            ) 
+            st.divider()
 
-if st.button("Predict"):
-    prediction = model.predict(match_mc)
-    
-    st.success("Predikterad MC: ", prediction)
+
+# Year = st.number_input("Year", min_value=1960, max_value=2026, value=1960)
+
+
+
+# @st.cache_resource
+# def load_model():
+#     # Creating the path for the fetching of the valutation model
+#     model_path = Path(__file__).parent.parent / "models" / "motorcycle_classifier.joblib"
+#     # returning the path
+#     return joblib.load(model_path)
+
+# model = load_model()
+# st.success("Model loaded successfuly!")
+
 
