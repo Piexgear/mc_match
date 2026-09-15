@@ -13,13 +13,6 @@ st.title("Motorcycle Match")
 
 st.write("Find the motorcycle that best matches your preferences.")
 
-#User preferences
-
-usage = st.selectbox(
-    "What till you mainly use the motorcycle for?",
-    ["Street", "Cruise", "Race", "Off-road", "Touring"]
-)
-
 preferred_looks = st.selectbox(
     "What style do you prefer?",
     ["Modern ","Classic", "Sport", "Adventure", "Retro", "Urban", "Off-road", "Cruiser", "Practical"]
@@ -49,63 +42,83 @@ min_hp, max_hp = st.slider(
     step=5
 )
 
+cylinders = st.slider(
+    "Cylinders",
+    min_value=1,
+    max_value=5,
+    value=1
+)
+
 seats = st.selectbox(
     "Number of seats",
     [1, 2],
     index=1
 )
 
-if st.button("Find my motorcycle"):
-    result = recommend_motorcycles( 
-        usage=usage, 
-        max_price=max_price, 
-        min_cc=min_cc, 
-        max_cc=max_cc, 
-        min_hp=min_hp, 
-        max_hp=max_hp, 
-        seats=seats, 
-        preferred_looks=preferred_looks 
+preferred_cc = (min_cc + max_cc) / 2
+preferred_hp = (min_hp + max_hp) / 2
+
+classification = pd.DataFrame({
+        "Looks": [preferred_looks],
+        "Number of cc": [preferred_cc],
+        "Horsepower": [preferred_hp],
+        "Number of Seating": [seats],
+        "Number of Cylinders":[cylinders],
+        "Price (SEK)": [max_price]
+    })
+
+#missing: {'Transmission Type', 'Number of Cylinders', 'Drivetrain', 'Country of Origin', 'Year', 'Engine Type', 'Torque'}
+# categorical_features_2 = [
+#     "Looks",
+#     "Country of Origin",
+#     "Engine Type",
+#     "Drivetrain",
+#     "Transmission Type"
+# ]
+# X_3 = df[numeric_features + categorical_features_2]
+# y_3 = df["Usage Type"]
+
+@st.cache_resource
+def load_model():
+    # Creating the path for the fetching of the valutation model
+    model_path = Path(__file__).parent.parent / "models" / "motorcycle_classifier_test.joblib"
+    # returning the path
+    return joblib.load(model_path)
+
+model = load_model()
+st.success("Model loaded successfuly!")
+
+
+if st.button("Predict"): 
+    df = pd.read_csv("dataset/motorcycles_clean.csv")
+
+    # Gör Price (SEK) till numeriska värden
+    df["Price (SEK)"] = pd.to_numeric(
+        df["Price (SEK)"],
+        errors="coerce"
     )
 
-    if result.empty:
-        st.warning(
-            "No motorcycles match all of your requirements."
-            "Try adjusting your filters."
-        )
+    probabilities = model.predict_proba(classification)[0]
 
-    else:
-        st.subheader("Your top matches")
-        for _, motorcycle in result.iterrows():
-            st.write(
-                f"### {motorcycle['Company']} {motorcycle['Model']}"
-            )
-            st.write(
-                f"**Price:** {motorcycle['Price (SEK)']:,.0f} SEK"
-            )
-            st.write(
-                f"**Engine:** {motorcycle['Number of cc']:.0f} cc | " f"**Horsepower:** {motorcycle['Horsepower']:.0f} hp"
-            ) 
-            st.write( 
-                f"**Style:** {motorcycle['Looks']} | " f"**Usage:** {motorcycle['Usage Type']}" 
-            ) 
-            st.write( 
-                f"**Match Score:** {motorcycle['Match Score']:.0%}" 
-            ) 
-            st.divider()
+    best_index = probabilities.argmax()
+    best_class = model.classes_[best_index]
 
+    best_probability = probabilities[best_index]
 
-# Year = st.number_input("Year", min_value=1960, max_value=2026, value=1960)
+    # Filtrera på klass + maxpris
+    matching_motorcycles = df[
+        (df["Usage Type"] == best_class) &
+        (df["Price (SEK)"] <= max_price)
+    ]
 
+    st.success(
+        f"Bästa klass: {best_class} "
+        f"({best_probability:.1%})"
+    )
 
+    st.subheader(
+        f"Motorcyklar inom {best_class} "
+        f"och under {max_price:,} SEK"
+    )
 
-# @st.cache_resource
-# def load_model():
-#     # Creating the path for the fetching of the valutation model
-#     model_path = Path(__file__).parent.parent / "models" / "motorcycle_classifier.joblib"
-#     # returning the path
-#     return joblib.load(model_path)
-
-# model = load_model()
-# st.success("Model loaded successfuly!")
-
-
+    st.dataframe(matching_motorcycles[["Company","Model", "Body Type","Price (SEK)"]], hide_index=True)
