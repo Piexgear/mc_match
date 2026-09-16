@@ -87,6 +87,12 @@ brand = st.selectbox(
     ]
 )
 
+country = st.text_input(label="Country")
+
+transmission = st.text_input(label="Transmission")
+
+drivetrain = st.text_input(label="Drivetrain")
+
 Looks = st.selectbox(
     "Looks",
     ["Modern ","Classic", "Sport", "Adventure", "Retro", "Urban", "Off-road", "Cruiser", "Practical"]
@@ -98,6 +104,25 @@ bt = st.selectbox(
 )
 
 Year = st.number_input("Year", min_value=1960, max_value=2026, value=1960)
+
+reference_year = 2020
+base_reduction_percent = 45.0
+reduction_per_year_older = 1
+reduction_per_year_newer = 5.0
+min_reduction_percent = 15.0
+max_reduction_percent = 75.0
+if Year < reference_year:
+    years_older = reference_year - Year
+    adjustment_percent = min(
+        max_reduction_percent,
+        base_reduction_percent + years_older * reduction_per_year_older,
+    )
+else:
+    years_newer = Year - reference_year
+    adjustment_percent = max(
+        min_reduction_percent,
+        base_reduction_percent - years_newer * reduction_per_year_newer,
+    )
 
 torque = st.number_input("Torque", min_value=3, max_value=301, value=3)
 
@@ -115,8 +140,6 @@ number_of_cylinder = st.selectbox(
     [1, 2, 3, 4]
 )
 
-price = 1
-
 Valuation = pd.DataFrame({
         "Company": [brand],
         "Looks": [Looks],
@@ -127,13 +150,24 @@ Valuation = pd.DataFrame({
         "Horsepower": [hp],
         "Number of Seating": [nos],
         "Number of Cylinders": [number_of_cylinder],
-        "Price (SEK)": price
+        "Country of Origin": [country], 
+        "Transmission Type": [transmission], 
+        "Drivetrain": [drivetrain]
     })
+
+# categorical_features = [
+#     "Model",
+#     "Country of Origin", 
+#     "Transmission Type", 
+#     "Drivetrain"
+# ]
+
+
 
 @st.cache_resource
 def load_model():
     # Creating the path for the fetching of the valutation model
-    model_path = Path(__file__).parent.parent / "models" / "Valuation_model.joblib"
+    model_path = Path(__file__).parent.parent / "models" / "Random_forest_model.joblib"
     # returning the path
     return joblib.load(model_path)
 
@@ -142,7 +176,11 @@ st.success("Model loaded successfuly!")
 
 if st.button("Predict"):
     prediction = model.predict(Valuation)
-    st.success(f"Predikterat värde: {prediction[0]:,.0f} SEK")
+    raw_prediction = float(prediction[0])
+    adjusted_prediction = max(0, raw_prediction * (1 - adjustment_percent / 100))
+    st.success(
+        f"Predikterade värde: {adjusted_prediction:,.0f} SEK "
+    )
 
 
 
