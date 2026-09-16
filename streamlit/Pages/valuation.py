@@ -107,7 +107,7 @@ Year = st.number_input("Year", min_value=1960, max_value=2026, value=1960)
 
 reference_year = 2020
 base_reduction_percent = 45.0
-reduction_per_year_older = 1.5
+reduction_per_year_older = 1
 reduction_per_year_newer = 5.0
 min_reduction_percent = 15.0
 max_reduction_percent = 75.0
