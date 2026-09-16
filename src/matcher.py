@@ -2,10 +2,8 @@ import pandas as pd
 import joblib
 from pathlib import Path
 
-
-BASE_DIR = Path(__file__).resolve().parents[2]
-DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
-MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
+DATA_PATH = Path("dataset") / "motorcycles_clean.csv"
+MODEL_PATH = Path("streamlit") / "models" / "motorcycle_classifier.joblib"
 
 
 def load_motorcycles():
@@ -49,13 +47,57 @@ def recommend_motorcycles(
     matching_motorcycles = df[
         (df["Usage Type"] == best_class) &
         (df["Price (SEK)"] <= max_price) &
-        (df["Number of cc"] >= min_cc) &
-        (df["Number of cc"] <= max_cc) &
-        (df["Horsepower"] >= min_hp) &
-        (df["Horsepower"] <= max_hp) &
-        (df["Number of Cylinders"] == cylinders) &
-        (df["Number of Seating"] == seats) &
-        (df["Looks"] == preferred_looks.strip())
+        (df["Number of Seating"] == seats) 
     ].copy()
+
+
+    if matching_motorcycles.empty:
+        return matching_motorcycles, best_class
+
+    # CC score
+    def range_score(value, minimum, maximum):
+        if minimum <= value <= maximum:
+            return 1.0
+
+        if value < minimum:
+            return max(0, 1 - (minimum - value) / (maximum - minimum))
+
+        return max(0, 1 - (value - maximum) / (maximum - minimum))
+
+    matching_motorcycles["CC Score"] = matching_motorcycles[
+        "Number of cc"
+    ].apply(
+        lambda value: range_score(value, min_cc, max_cc)
+    )
+
+    # Horsepower score
+    matching_motorcycles["HP Score"] = matching_motorcycles[
+        "Horsepower"
+    ].apply(
+        lambda value: range_score(value, min_hp, max_hp)
+    )
+
+    # Looks score
+    matching_motorcycles["Looks Score"] = (
+        matching_motorcycles["Looks"] == preferred_looks.strip()
+    ).astype(float)
+
+    # Cylinder score
+    matching_motorcycles["Cylinder Score"] = (
+        matching_motorcycles["Number of Cylinders"] == cylinders
+    ).astype(float)
+
+    # Final Match Score
+    matching_motorcycles["Match Score"] = (
+        matching_motorcycles["CC Score"] * 0.30 +
+        matching_motorcycles["HP Score"] * 0.30 +
+        matching_motorcycles["Looks Score"] * 0.20 +
+        matching_motorcycles["Cylinder Score"] * 0.20
+    )
+
+    matching_motorcycles = matching_motorcycles.sort_values(
+        "Match Score",
+        ascending=False
+    )
 
     return matching_motorcycles, best_class
