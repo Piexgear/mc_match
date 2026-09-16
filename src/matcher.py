@@ -2,9 +2,10 @@ import pandas as pd
 import joblib
 from pathlib import Path
 
-DATA_PATH = Path("dataset") / "motorcycles_clean.csv"
-MODEL_PATH = Path("streamlit") / "models" / "motorcycle_classifier.joblib"
+BASE_DIR = Path(__file__).resolve().parent.parent
 
+DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
+MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
 def load_motorcycles():
     return pd.read_csv(DATA_PATH)
@@ -98,6 +99,6 @@ def recommend_motorcycles(
     matching_motorcycles = matching_motorcycles.sort_values(
         "Match Score",
         ascending=False
-    )
+    ).head(5)
 
     return matching_motorcycles, best_class

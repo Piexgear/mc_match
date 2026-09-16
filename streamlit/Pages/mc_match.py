@@ -101,7 +101,7 @@ if st.button("Find my motorcycle"):
         for _, motorcycle in matching_motorcycles.iterrows():
 
             st.write(
-                f"### 🏍️ {motorcycle['Company']} "
+                f"### {motorcycle['Company']} "
                 f"{motorcycle['Model']}"
             )
 
