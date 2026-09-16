@@ -1,14 +1,19 @@
 from pathlib import Path
 import pandas as pd
+import joblib
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
-
+MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
 def load_motorcycles():
     df = pd.read_csv(DATA_PATH)
     return df
+
+def load_model():
+    model = joblib.load(MODEL_PATH)
+    return model
 
 
 def recommend_motorcycles(
@@ -36,6 +41,23 @@ def recommend_motorcycles(
     if recommendations.empty:
         return recommendations
 
+    model = load_model()
+    model_features = [ 
+        "Number of cc", 
+        "Horsepower", 
+        "Number of Seating", 
+        "Looks"
+    ] 
+
+    model_input = recommendations[model_features]
+
+    probabilities = model.predict_proba(model_input)
+    class_names = model.classes_
+
+    usage_index = list(class_names).index(usage)
+
+    recommendations["AI Score"] = probabilities[:, usage_index]
+
     preferred_cc = (min_cc + max_cc) / 2
     preferred_hp = (min_hp + max_hp) / 2
 
@@ -54,7 +76,7 @@ def recommend_motorcycles(
 
     recommendations = recommendations.sort_values( "Match Score", ascending=False )
 
-    return recommendations.head(3)
+    return recommendations
 
 
 

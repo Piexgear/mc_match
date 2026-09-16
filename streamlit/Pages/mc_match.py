@@ -91,6 +91,9 @@ if st.button("Find my motorcycle"):
             st.write( 
                 f"**Match Score:** {motorcycle['Match Score']:.0%}" 
             ) 
+            st.write(
+                f"**AI Score:** {motorcycle['AI Score']:.0%}"
+            )
             st.divider()
 
 
