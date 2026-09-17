@@ -113,31 +113,78 @@ country = st.selectbox(
 
 transmission = st.selectbox(
     "Transmission",
-    ["Manual", "Automatic"]
+        [
+            "Manual", 
+            "Automatic"
+        ]
     )
 
 drivetrain = st.selectbox(
     "Drivetrain",
-    ["Chain", "Belt", "Shaft Drive"]
+        [
+            "Chain", 
+            "Belt", 
+            "Shaft Drive"
+        ]
     )
 
 Looks = st.selectbox(
     "Looks",
-    ["Modern ","Classic", "Sport", "Adventure", "Retro", "Urban", "Off-road", "Cruiser", "Practical"]
+        [
+            "Modern",
+            "Classic", 
+            "Sport", 
+            "Adventure", 
+            "Retro", 
+            "Urban", 
+            "Off-road", 
+            "Cruiser", 
+            "Practical"
+        ]
 )
 
 bt = st.selectbox(
     "Body type",
-    ["Adventure", "Cafe Racer", "Cruiser", "Enduro", "Naked/Street", "Scooter", "Scrambler", "Sport", "Standard"]
+        [
+            "Adventure", 
+            "Cafe Racer", 
+            "Cruiser", 
+            "Enduro", 
+            "Naked/Street", 
+            "Scooter", 
+            "Scrambler", 
+            "Sport", 
+            "Standard"
+        ]
 )
 
-Year = st.number_input("Year", min_value=1960, max_value=2026, value=2020)
+Year = st.number_input(
+    "Year", 
+    min_value=1960, 
+    max_value=2026, 
+    value=2020
+    )
 
-torque = st.number_input("Torque", min_value=3, max_value=301, value=25)
+torque = st.number_input(
+    "Torque", 
+    min_value=3, 
+    max_value=301, 
+    value=25
+    )
 
-num_of_cc = st.number_input("CC", min_value=7, max_value=2500, value=125)
+num_of_cc = st.number_input(
+    "CC", 
+    min_value=7, 
+    max_value=2500, 
+    value=125
+    )
 
-hp = st.number_input("Horse Power", min_value=10, max_value=600, value=50)
+hp = st.number_input(
+    "Horse Power",
+    min_value=10, 
+    max_value=600, 
+    value=50
+    )
 
 nos = st.slider(
     "Number of seats",
