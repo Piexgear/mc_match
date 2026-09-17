@@ -8,10 +8,24 @@ DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
 MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
 def load_motorcycles() -> pd.DataFrame:
-    return pd.read_csv(DATA_PATH)
+    try:
+        return pd.read_csv(DATA_PATH)
+    except FileNotFoundError:
+        print(f"Error: Data file not found at {DATA_PATH}")
+        return pd.DataFrame()
+    except Exception as e:
+        print(f"Error loading motorcycles: {e}")
+        return pd.DataFrame()
 
 def load_model() -> joblib.Dumper:
-    return joblib.load(MODEL_PATH)
+    try:
+        return joblib.load(MODEL_PATH)
+    except FileNotFoundError:
+        print(f"Error: Model file not found at {MODEL_PATH}")
+        raise
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        raise
 
 def recommend_motorcycles(
     preferred_looks: str,
@@ -24,6 +38,8 @@ def recommend_motorcycles(
     seats: int
 ) -> tuple[pd.DataFrame, str]:
     df = load_motorcycles()
+    if df.empty:
+        return df, "No data loaded"
     model = load_model()
 
     preferred_cc = (min_cc + max_cc) / 2
