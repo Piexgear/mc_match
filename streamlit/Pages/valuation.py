@@ -7,9 +7,8 @@ st.title("Valuat your MC")
 st.write("Please fill in the information needed to see the value on your MC")
 
 
-"""These are the variables needed to predict a price for the users mc.
-the user changes these values so the model can make a prediktion"""
-
+#These are the variables needed to predict a price for the users mc.
+#the user changes these values so the model can make a prediktion
 brand = st.selectbox(
     "Brand",
     [
@@ -140,26 +139,27 @@ num_of_cc = st.number_input("CC", min_value=7, max_value=2500, value=125)
 
 hp = st.number_input("Horse Power", min_value=10, max_value=600, value=50)
 
-nos = st.selectbox(
+nos = st.slider(
     "Number of seats",
-    [1, 2]
+    min_value=1,
+    max_value=2
 )
 
-number_of_cylinder = st.selectbox(
+number_of_cylinder = st.slider(
     "Number of cylinders",
-    [1, 2, 3, 4]
+    min_value=1,
+    max_value=4
 )
 
 
-"""
-Calculate a percentage adjustment based on the motorcycle's age. 
-Older motorcycles receive a larger reduction, while newer motorcycles receive a smaller reduction.
-"""
+
+#Calculate a percentage adjustment based on the motorcycle's age. 
+#Older motorcycles receive a larger reduction, while newer motorcycles receive a smaller reduction.
 reference_year = 2020
-base_reduction_percent = 45.0
+base_reduction_percent = 15.0
 reduction_per_year_older = 1
 reduction_per_year_newer = 5.0
-min_reduction_percent = 15.0
+min_reduction_percent = 5.0
 max_reduction_percent = 75.0
 if Year < reference_year:
     years_older = reference_year - Year
@@ -175,10 +175,8 @@ else:
     )
 
 
-"""
-Store the user's input values in a DataFrame.
-The DataFrame is passed to the machine learning model for prediction.
-"""
+#Store the user's input values in a DataFrame.
+#The DataFrame is passed to the machine learning model for prediction.
 Valuation = pd.DataFrame({
         "Company": [brand],
         "Looks": [Looks],
@@ -195,25 +193,23 @@ Valuation = pd.DataFrame({
     })
 
 
-"""
-Cache the model so it only needs to be loaded once.
-This improves the application's performance. 
-"""
+
+#Cache the model so it only needs to be loaded once.
+#This improves the application's performance. 
 @st.cache_resource
 def load_model():
     # Creating the path for the fetching of the valutation model
-    model_path = Path(__file__).parent.parent / "models" / "Random_forest_model.joblib"
+    model_path = Path(__file__).parent.parent / "models" / "Linear_model.joblib"
     # returning the path
     return joblib.load(model_path)
 
-""" Just a notification that the model is loaded"""
+#Just a notification that the model is loaded
 model = load_model()
 st.success("Model loaded successfuly!")
 
-"""
-When the user presses the Predict button, the model predicts the motorcycles value. 
-The prediction is then adjusted based on the motorcycles age.
-"""
+
+#When the user presses the Predict button, the model predicts the motorcycles value. 
+#The prediction is then adjusted based on the motorcycles age.
 if st.button("Predict"):
     prediction = model.predict(Valuation)
     raw_prediction = float(prediction[0])
