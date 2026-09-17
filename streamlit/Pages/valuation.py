@@ -6,6 +6,10 @@ import pandas as pd
 st.title("Valuat your MC")
 st.write("Please fill in the information needed to see the value on your MC")
 
+
+"""These are the variables needed to predict a price for the users mc.
+the user changes these values so the model can make a prediktion"""
+
 brand = st.selectbox(
     "Brand",
     [
@@ -84,14 +88,39 @@ brand = st.selectbox(
         "Hyosung",
         "Fantic",
         "Larry vs Harry",
+    ],
+)
+
+country = st.selectbox(
+    "Country",
+    [
+        "Italy",
+        "India",
+        "UK",
+        "China",
+        "USA",
+        "Japan",
+        "Taiwan",
+        "Austria",
+        "Sweden",
+        "Germany",
+        "Spain",
+        "France",
+        "South Korea",
+        "Canada",
+        "Denmark"
     ]
 )
 
-country = st.text_input(label="Country")
+transmission = st.selectbox(
+    "Transmission",
+    ["Manual", "Automatic"]
+    )
 
-transmission = st.text_input(label="Transmission")
-
-drivetrain = st.text_input(label="Drivetrain")
+drivetrain = st.selectbox(
+    "Drivetrain",
+    ["Chain", "Belt", "Shaft Drive"]
+    )
 
 Looks = st.selectbox(
     "Looks",
@@ -103,8 +132,29 @@ bt = st.selectbox(
     ["Adventure", "Cafe Racer", "Cruiser", "Enduro", "Naked/Street", "Scooter", "Scrambler", "Sport", "Standard"]
 )
 
-Year = st.number_input("Year", min_value=1960, max_value=2026, value=1960)
+Year = st.number_input("Year", min_value=1960, max_value=2026, value=2020)
 
+torque = st.number_input("Torque", min_value=3, max_value=301, value=25)
+
+num_of_cc = st.number_input("CC", min_value=7, max_value=2500, value=125)
+
+hp = st.number_input("Horse Power", min_value=10, max_value=600, value=50)
+
+nos = st.selectbox(
+    "Number of seats",
+    [1, 2]
+)
+
+number_of_cylinder = st.selectbox(
+    "Number of cylinders",
+    [1, 2, 3, 4]
+)
+
+
+"""
+Calculate a percentage adjustment based on the motorcycle's age. 
+Older motorcycles receive a larger reduction, while newer motorcycles receive a smaller reduction.
+"""
 reference_year = 2020
 base_reduction_percent = 45.0
 reduction_per_year_older = 1
@@ -124,22 +174,11 @@ else:
         base_reduction_percent - years_newer * reduction_per_year_newer,
     )
 
-torque = st.number_input("Torque", min_value=3, max_value=301, value=3)
 
-num_of_cc = st.number_input("CC", min_value=7, max_value=2500, value=7)
-
-hp = st.number_input("Horse Power", min_value=10, max_value=600, value=10)
-
-nos = st.selectbox(
-    "Number of seats",
-    [1, 2]
-)
-
-number_of_cylinder = st.selectbox(
-    "Number of cylinders",
-    [1, 2, 3, 4]
-)
-
+"""
+Store the user's input values in a DataFrame.
+The DataFrame is passed to the machine learning model for prediction.
+"""
 Valuation = pd.DataFrame({
         "Company": [brand],
         "Looks": [Looks],
@@ -155,15 +194,11 @@ Valuation = pd.DataFrame({
         "Drivetrain": [drivetrain]
     })
 
-# categorical_features = [
-#     "Model",
-#     "Country of Origin", 
-#     "Transmission Type", 
-#     "Drivetrain"
-# ]
 
-
-
+"""
+Cache the model so it only needs to be loaded once.
+This improves the application's performance. 
+"""
 @st.cache_resource
 def load_model():
     # Creating the path for the fetching of the valutation model
@@ -171,9 +206,14 @@ def load_model():
     # returning the path
     return joblib.load(model_path)
 
+""" Just a notification that the model is loaded"""
 model = load_model()
 st.success("Model loaded successfuly!")
 
+"""
+When the user presses the Predict button, the model predicts the motorcycles value. 
+The prediction is then adjusted based on the motorcycles age.
+"""
 if st.button("Predict"):
     prediction = model.predict(Valuation)
     raw_prediction = float(prediction[0])
@@ -181,36 +221,3 @@ if st.button("Predict"):
     st.success(
         f"Predikterade värde: {adjusted_prediction:,.0f} SEK "
     )
-
-
-
-#Naked/Street
-
-# Year
-
-# 2006
-
-
-# Torque
-
-# 75
-
-
-# CC
-
-# 750
-
-
-# Horse Power
-
-# 110
-
-
-# Number of seats
-
-# 2
-
-# Number of cylinders
-
-# 4
-
