@@ -68,15 +68,22 @@ def recommend_motorcycles(
     if matching_motorcycles.empty:
         return matching_motorcycles, best_class
 
-    # CC score
+    # Higher scores awarded to bikes closest to the target within a range
     def range_score(value: float, minimum: float, maximum: float) -> float: 
+        # value is in range
         if minimum <= value <= maximum:
             return 1.0
-
+        
+        diff = maximum - minimum
+        # prevent division by zero
+        if diff == 0.0:
+            diff = 1.0
+        # value is below minimum
         if value < minimum:
-            return max(0, 1 - (minimum - value) / (maximum - minimum))
-
-        return max(0, 1 - (value - maximum) / (maximum - minimum))
+            return max(0.0, 1.0 - (minimum - value) / diff)
+        # value is above maximum
+        else:
+            return max(0.0, 1.0 - (value - maximum) / diff)
 
     matching_motorcycles["CC Score"] = matching_motorcycles[
         "Number of cc"
