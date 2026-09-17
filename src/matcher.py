@@ -7,6 +7,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
 MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
+MATCH_WEIGHTS = {
+    "CC Score": 0.30,
+    "HP Score": 0.30,
+    "Looks Score": 0.20,
+    "Cylinder Score": 0.20
+}
+
 def load_motorcycles() -> pd.DataFrame:
     try:
         return pd.read_csv(DATA_PATH)
@@ -110,10 +117,10 @@ def recommend_motorcycles(
 
     # Final Match Score
     matching_motorcycles["Match Score"] = (
-        matching_motorcycles["CC Score"] * 0.30 +
-        matching_motorcycles["HP Score"] * 0.30 +
-        matching_motorcycles["Looks Score"] * 0.20 +
-        matching_motorcycles["Cylinder Score"] * 0.20
+        matching_motorcycles["CC Score"] * MATCH_WEIGHTS["CC Score"] +
+        matching_motorcycles["HP Score"] * MATCH_WEIGHTS["HP Score"] +
+        matching_motorcycles["Looks Score"] * MATCH_WEIGHTS["Looks Score"] +
+        matching_motorcycles["Cylinder Score"] * MATCH_WEIGHTS["Cylinder Score"]
     )
 
     matching_motorcycles = matching_motorcycles.sort_values(
