@@ -7,24 +7,22 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
 MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
-def load_motorcycles():
+def load_motorcycles() -> pd.DataFrame:
     return pd.read_csv(DATA_PATH)
 
-
-def load_model():
+def load_model() -> joblib.Dumper:
     return joblib.load(MODEL_PATH)
 
-
 def recommend_motorcycles(
-    preferred_looks,
-    max_price,
-    min_cc,
-    max_cc,
-    min_hp,
-    max_hp,
-    cylinders,
-    seats
-):
+    preferred_looks: str,
+    max_price: float,
+    min_cc: float,
+    max_cc: float,
+    min_hp: float,
+    max_hp: float,
+    cylinders: int,
+    seats: int
+) -> tuple[pd.DataFrame, str]:
     df = load_motorcycles()
     model = load_model()
 
@@ -51,12 +49,11 @@ def recommend_motorcycles(
         (df["Number of Seating"] == seats) 
     ].copy()
 
-
     if matching_motorcycles.empty:
         return matching_motorcycles, best_class
 
     # CC score
-    def range_score(value, minimum, maximum):
+    def range_score(value: float, minimum: float, maximum: float) -> float: 
         if minimum <= value <= maximum:
             return 1.0
 
