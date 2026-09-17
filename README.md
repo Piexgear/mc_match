@@ -1,7 +1,9 @@
 # Mc match
 This is our school project for machine learning and we decided to make two models. 
 One model is a classification model and the second one is a prediction model that validates price. 
+
 ---
+
 ## Setup
 ### download the project
 clone the repo to your computer by running the this commmand in the terminal in your wished directory: 
@@ -29,11 +31,17 @@ pip install requirements.txt
 
 #### UV:
 uv sync
+
 ---
+___
+
 ### Streamlit
 If you want to try the models in the frontend type this command: 
 streamlit run streamlit/app.py 
+
 ---
+---
+
 ## Versions
 we run this project on these versions so you need to have at least these versions or a newer version for this project to work.
 #### Python
