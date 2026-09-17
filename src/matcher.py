@@ -17,7 +17,7 @@ def load_motorcycles() -> pd.DataFrame:
         print(f"Error loading motorcycles: {e}")
         return pd.DataFrame()
 
-def load_model() -> joblib.Dumper:
+def load_model() -> any:
     try:
         return joblib.load(MODEL_PATH)
     except FileNotFoundError:
