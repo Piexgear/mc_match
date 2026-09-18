@@ -25,7 +25,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-with col2:
+with col1:
     st.markdown(
         """
         ### Match
@@ -41,7 +41,7 @@ with col2:
 
     with button:
         if st.button("Match", use_container_width=True):
-            st.switch_page("pages/match.py")
+            st.switch_page("Pages/mc_match.py")
 
 
 with divider:
@@ -53,7 +53,7 @@ with divider:
     )
 
 
-with col1:
+with col2:
     st.markdown(
         """
         ### Valuation
@@ -72,4 +72,4 @@ with col1:
 
     with button:
         if st.button("Valuation", use_container_width=True):
-            st.switch_page("pages/valuation.py")
+            st.switch_page("Pages/valuation.py")
