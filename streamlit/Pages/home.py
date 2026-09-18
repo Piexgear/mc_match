@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.title("MC Match")
-st.write("This page will match you with your next MC with our machine learned model!")
+st.write("This page will match you with your next motorcycle with our machine learned model!")
 st.write("There is also a feature for valuating your current MC.")
 
 col1, divider, col2 = st.columns([1, 0.05, 1])
@@ -25,15 +25,15 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-with col2:
+with col1:
     st.markdown(
         """
         ### Match
 
         This is our classification model that will estimate
         what type of MC matches you.
-        You will enter some variables that will get sent
-        to our Random Forest classifier model.
+        You will enter a few details that will be sent
+        to our AI model.
         """
     )
 
@@ -41,7 +41,7 @@ with col2:
 
     with button:
         if st.button("Match", use_container_width=True):
-            st.switch_page("pages/match.py")
+            st.switch_page("Pages/mc_match.py")
 
 
 with divider:
@@ -53,13 +53,17 @@ with divider:
     )
 
 
-with col1:
+with col2:
     st.markdown(
         """
         ### Valuation
 
-        This is our valuation model. You will enter some
-        variables about your MC and get an estimated value.
+        This is our valuation model. You will enter a few details
+        about your motorcycle and get an estimated price.
+        This is an estimation of the price and not the actualy true value.
+        It can be more expensive or cheeper than the estimation. 
+
+        This model predicts best for motorcycles that cost less than 100k SEK
         """
     )
 
@@ -67,4 +71,4 @@ with col1:
 
     with button:
         if st.button("Valuation", use_container_width=True):
-            st.switch_page("pages/valuation.py")
+            st.switch_page("Pages/valuation.py")
