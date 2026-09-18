@@ -58,7 +58,7 @@ min_hp, max_hp = st.slider(
 cylinders = st.slider(
     "Cylinders",
     min_value=1,
-    max_value=5,
+    max_value=4,
     value=2
 )
 
