@@ -60,6 +60,11 @@ with col1:
 
         This is our valuation model. You will enter some
         variables about your MC and get an estimated value.
+        This prediction is not the actual price of your MC.
+        This is a estimation of the price and not the actualy true value.
+        It can be more expansive or cheeper than the estimation. 
+
+        This model predicts best for MC that cost less than 100k SEK
         """
     )
 
