@@ -43,7 +43,7 @@ def initialize_database():
             `Engine Type` CHAR(45),
             `Number of Cylinders` INT,
             `Price (SEK)` REAL,
-            `Usage Type` CHAR(45),
+            `Usage Type` CHAR(45)
         )
     ''')
     conn.commit()
