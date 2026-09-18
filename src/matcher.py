@@ -7,25 +7,46 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
 MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
-def load_motorcycles():
-    return pd.read_csv(DATA_PATH)
+MATCH_WEIGHTS = {
+    "CC Score": 0.30,
+    "HP Score": 0.30,
+    "Looks Score": 0.20,
+    "Cylinder Score": 0.20
+}
 
+def load_motorcycles() -> pd.DataFrame:
+    try:
+        return pd.read_csv(DATA_PATH)
+    except FileNotFoundError:
+        print(f"Error: Data file not found at {DATA_PATH}")
+        return pd.DataFrame()
+    except Exception as e:
+        print(f"Error loading motorcycles: {e}")
+        return pd.DataFrame()
 
-def load_model():
-    return joblib.load(MODEL_PATH)
-
+def load_model() -> any:
+    try:
+        return joblib.load(MODEL_PATH)
+    except FileNotFoundError:
+        print(f"Error: Model file not found at {MODEL_PATH}")
+        raise
+    except Exception as e:
+        print(f"Error loading model: {e}")
+        raise
 
 def recommend_motorcycles(
-    preferred_looks,
-    max_price,
-    min_cc,
-    max_cc,
-    min_hp,
-    max_hp,
-    cylinders,
-    seats
-):
+    preferred_looks: str,
+    max_price: float,
+    min_cc: float,
+    max_cc: float,
+    min_hp: float,
+    max_hp: float,
+    cylinders: int,
+    seats: int
+) -> tuple[pd.DataFrame, str]:
     df = load_motorcycles()
+    if df.empty:
+        return df, "No data loaded"
     model = load_model()
 
     preferred_cc = (min_cc + max_cc) / 2
@@ -51,19 +72,25 @@ def recommend_motorcycles(
         (df["Number of Seating"] == seats) 
     ].copy()
 
-
     if matching_motorcycles.empty:
         return matching_motorcycles, best_class
 
-    # CC score
-    def range_score(value, minimum, maximum):
+    # Higher scores awarded to bikes closest to the target within a range
+    def range_score(value: float, minimum: float, maximum: float) -> float: 
+        # value is in range
         if minimum <= value <= maximum:
             return 1.0
-
+        
+        diff = maximum - minimum
+        # prevent division by zero
+        if diff == 0.0:
+            diff = 1.0
+        # value is below minimum
         if value < minimum:
-            return max(0, 1 - (minimum - value) / (maximum - minimum))
-
-        return max(0, 1 - (value - maximum) / (maximum - minimum))
+            return max(0.0, 1.0 - (minimum - value) / diff)
+        # value is above maximum
+        else:
+            return max(0.0, 1.0 - (value - maximum) / diff)
 
     matching_motorcycles["CC Score"] = matching_motorcycles[
         "Number of cc"
@@ -90,10 +117,10 @@ def recommend_motorcycles(
 
     # Final Match Score
     matching_motorcycles["Match Score"] = (
-        matching_motorcycles["CC Score"] * 0.30 +
-        matching_motorcycles["HP Score"] * 0.30 +
-        matching_motorcycles["Looks Score"] * 0.20 +
-        matching_motorcycles["Cylinder Score"] * 0.20
+        matching_motorcycles["CC Score"] * MATCH_WEIGHTS["CC Score"] +
+        matching_motorcycles["HP Score"] * MATCH_WEIGHTS["HP Score"] +
+        matching_motorcycles["Looks Score"] * MATCH_WEIGHTS["Looks Score"] +
+        matching_motorcycles["Cylinder Score"] * MATCH_WEIGHTS["Cylinder Score"]
     )
 
     matching_motorcycles = matching_motorcycles.sort_values(

@@ -1,2 +1,1 @@
-def main() -> None:
-    print("Hello from mc-match!")
+from .main import main
