@@ -1,10 +1,10 @@
 import pandas as pd
 import joblib
 from pathlib import Path
+from src.database import load_motorcycles_from_db
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
 MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 
 MATCH_WEIGHTS = {
@@ -16,12 +16,9 @@ MATCH_WEIGHTS = {
 
 def load_motorcycles() -> pd.DataFrame:
     try:
-        return pd.read_csv(DATA_PATH)
-    except FileNotFoundError:
-        print(f"Error: Data file not found at {DATA_PATH}")
-        return pd.DataFrame()
+        return load_motorcycles_from_db()
     except Exception as e:
-        print(f"Error loading motorcycles: {e}")
+        print(f"Error loading motorcycles from database: {e}")
         return pd.DataFrame()
 
 def load_model() -> any:
