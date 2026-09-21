@@ -1,3 +1,10 @@
+import sys
+from pathlib import Path
+sys.path.append(str(Path(__file__).resolve().parent.parent))
+
+from src import import_data as id
+id.migrate_data()
+
 import streamlit as st
 
 home = st.Page(
