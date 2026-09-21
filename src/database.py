@@ -36,8 +36,13 @@ def update_motorcycle(motorcycle_id: int, column_name: str, new_value: str) -> b
     finally:
         conn.close()
 
-def initialize_database():
+def initialize_database() -> bool:
     conn = get_db_connection()
+    # check if database exists 
+    df = pd.read_sql_query("SELECT name FROM sqlite_master WHERE type='table' AND name='motorcycles';", conn)
+    if not df.empty:
+        return False
+
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS motorcycles (
@@ -62,4 +67,4 @@ def initialize_database():
     ''')
     conn.commit()
     conn.close()
-    
+    return True
