@@ -32,6 +32,11 @@ pip install requirements.txt
 #### UV:
 uv sync
 
+### Initalize the database:
+```sh
+python -m src.import_data
+```
+
 ---
 ___
 
