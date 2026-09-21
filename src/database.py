@@ -22,23 +22,37 @@ def load_motorcycles_from_db() -> pd.DataFrame:
     finally:
         conn.close()
 
+def update_motorcycle(motorcycle_id: int, column_name: str, new_value: str) -> bool:
+    conn = get_db_connection()
+    try:
+        cursor = conn.cursor()
+        query = f"UPDATE motorcyles SET `{column_name}` = ? WHERE id = ?"
+        cursor.execute(query, (new_value, motorcycle_id))
+        conn.commit()
+        return cursor.rowcount > 0
+    except Exception as e:
+        print(f"Error updating column {column_name}: {e}")
+        return False
+    finally:
+        conn.close()
+
 def initialize_database():
     conn = get_db_connection()
     cursor = conn.cursor()
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS motorcycles (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            Company CHAR(45),
+            `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+            `Company` CHAR(45),
             `Country of Origin` CHAR(45),
-            Model CHAR(45),
+            `Model` CHAR(45),
             `Number of cc` REAL,
-            Horsepower REAL,
-            Torque REAL,
+            `Horsepower` REAL,
+            `Torque` REAL,
             `Transmission Type` CHAR(45),
-            Drivetrain CHAR(45),
+            `Drivetrain` CHAR(45),
             `Number of Seating` INT,
-            Year INT,
-            Looks CHAR(45),
+            `Year` INT,
+            `Looks` CHAR(45),
             `Body Type` CHAR(45),
             `Engine Type` CHAR(45),
             `Number of Cylinders` INT,
