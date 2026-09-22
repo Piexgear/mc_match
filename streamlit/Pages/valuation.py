@@ -3,7 +3,7 @@ import joblib
 from pathlib import Path
 import pandas as pd
 
-st.title("Valuat your MC")
+st.title("Valuate your MC")
 st.write("Please fill in the information needed to see the value on your MC")
 
 
