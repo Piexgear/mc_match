@@ -13,6 +13,12 @@ MC Match is a comprehensive data-driven platform designed to simplify motorcycle
   1. **Select Preferences:** Enter your motorcycle's characteristics (e.g., horsepower, torque, budget).
   2. **Price Estimation:** The property details are used to estimate the market price of the motorcycle.
 
+## Tech Stack
+- **Frontend:** Streamlit
+- **Backend/ML Pipeline:** Python, Scikit-Learn, NumPy, SciPy
+- **Data Management:** Pandas, SQLite
+- **Package Management:** pip, uv
+
 ## Setup
 ### download the project
 clone the repo to your computer by running the this commmand in the terminal in your wished directory: 
