@@ -73,12 +73,7 @@ MC Match is a comprehensive data-driven platform designed to simplify motorcycle
    ```
 
 ## Versions
-we run this project on these versions so you need to have at least these versions or a newer version for this project to work.
-#### Python
-3.12.14
-
-#### pip
-25.1.1
-
-#### uv
-0.11.16
+This project was developed using the following versions (or newer):
+- **Python:** 3.12.14
+- **pip:** 25.1.1
+- **uv** 0.11.16
