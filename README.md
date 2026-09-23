@@ -2,6 +2,17 @@
 
 MC Match is a comprehensive data-driven platform designed to simplify motorcycle selection and market analysis. By integrating a custom machine learning pipeline with a streamlined user interface, MC Match provides motorcycle enthusiasts and industry stakeholders with personalized motorcycle suggestions and data-informed market price estimations.
 
+## Live Demo
+**Demo link:** [mcmatch.streamlit.app/mc_match](https://mcmatch.streamlit.app/mc_match)
+
+### How it works:
+- **Use MC Match**
+  1. **Select Preferences:** Enter your desired motorcycle characteristics (e.g., horsepower, torque, budget).
+  2. **Get a Match:** The system will predict the best "Usage Type" and suggest the top 5 motorcycles that match your needs.
+- **Use the Valuation tool**
+  1. **Select Preferences:** Enter your motorcycle's characteristics (e.g., horsepower, torque, budget).
+  2. **Price Estimation:** The property details are used to estimate the market price of the motorcycle.
+
 ## Setup
 ### download the project
 clone the repo to your computer by running the this commmand in the terminal in your wished directory: 
