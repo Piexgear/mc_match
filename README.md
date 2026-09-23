@@ -1,8 +1,6 @@
-# Mc match
-This is our school project for machine learning and we decided to make two models. 
-One model is a classification model and the second one is a prediction model that validates price. 
+# Mc Match
 
----
+MC Match is a comprehensive data-driven platform designed to simplify motorcycle selection and market analysis. By integrating a custom machine learning pipeline with a streamlined user interface, MC Match provides motorcycle enthusiasts and industry stakeholders with personalized motorcycle suggestions and data-informed market price estimations.
 
 ## Setup
 ### download the project
