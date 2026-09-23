@@ -43,10 +43,8 @@ type one of these commands depending on if you use pip or uv:
 
 #### pip: 
 ```sh
-pip install requirements.txt
+python -m pip install -r requirements.txt
 ```
-
-#### or
 
 #### UV:
 ```sh
