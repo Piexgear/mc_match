@@ -19,74 +19,58 @@ MC Match is a comprehensive data-driven platform designed to simplify motorcycle
 - **Data Management:** Pandas, SQLite
 - **Package Management:** pip, uv
 
-## Setup
-### download the project
-clone the repo to your computer by running the this commmand in the terminal in your wished directory: 
-```sh
-git clone git@github.com:Piexgear/mc_match.git
-```
+## Installation
 
-Now open up the projects directory mc_match.
+### Prerequisites
+- Python 3.12+
+- `pip` or `uv` package manager
 
-### virtual envirement setup
-type this command for setting up your virtual envirement: 
+### Getting Started
 
-```sh
-python -m venv .venv
-```
+1. **Clone and Navigate**
 
-#### or
+   Clone the repository and navigate into the project directory:
+   ```sh
+   git clone git@github.com:Piexgear/mc_match.git
+   cd mc_match
+   ```
 
-```sh
-uv venv
-```
+2. **Environment Setup**
 
-### virtual envirement activate
-now activate the venv by typing this command: 
-#### Windows: 
-```sh
-source .venv/Scripts/activate
-```
+   Create a virtual environment:
+   - *Standard:* `python -m venv .venv`
+   - *Using uv:* `uv venv`
 
-#### Mac/Linux:
-```sh
-source .venv/bin/activate
-```
+   Activate the environment:
+   - **Windows:** `.venv\Scripts\activate`
+   - **macOS/Linux:** `source .venv/bin/activate`
 
-### installing dependecies 
-type one of these commands depending on if you use pip or uv: 
+3. **Install Dependencies**
 
-#### pip: 
-```sh
-python -m pip install -r requirements.txt
-```
+   Choose one of the following methods:
 
-#### UV:
-```sh
-uv sync
-```
+   *Using pip:*
+   ```sh
+   python -m pip install -r requirements.txt
+   ```
+   *Using uv:*
+   ```sh
+   uv sync
+   ```
 
-### Initalize the database:
-```sh
-python -m src.import_data
-```
+4. **Data Initialization**
 
----
+   Initialize the database using the internal data import script:
+   ```sh
+   python -m src.import_data
+   ```
 
+5. **Run the Application**
 
-### Streamlit
-If you want to try the models in the frontend type this command: 
-```sh
-streamlit run streamlit/app.py 
-```
-
-#### or 
-
-```sh
-cd streamlit
-streamlit run app.py
-```
----
+   Launch the Streamlit frontend:
+   ```sh
+   streamlit run streamlit/app.py
+   ```
 
 ## Versions
 we run this project on these versions so you need to have at least these versions or a newer version for this project to work.
