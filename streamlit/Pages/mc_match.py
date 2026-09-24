@@ -1,10 +1,5 @@
-import sys
-from pathlib import Path
-
-sys.path.append(str(Path(__file__).resolve().parents[2]))
-
 import streamlit as st
-from src.matcher import recommend_motorcycles
+from mc_match.matcher import recommend_motorcycles
 
 
 st.title("🏍️ Motorcycle Match")
