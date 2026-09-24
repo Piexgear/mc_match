@@ -1,5 +1,6 @@
 import streamlit as st
 
+st.set_page_config(page_title="Motorcycle Match", page_icon="🏍️")
 st.title("MC Match")
 st.write("This page will match you with your next motorcycle with our machine learned model!")
 st.write("There is also a feature for valuating your current MC.")

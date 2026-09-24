@@ -1,7 +1,7 @@
 import streamlit as st
 from mc_match.matcher import recommend_motorcycles
 
-
+st.set_page_config(page_title="MC-Match - Motorcycle Match", page_icon="🏍️")
 st.title("🏍️ Motorcycle Match")
 
 st.write("Find the motorcycle that best matches your preferences.")
