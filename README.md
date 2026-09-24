@@ -55,7 +55,7 @@ uv sync
 
 ### Initalize the database:
 ```sh
-python -m src.import_data
+python -m data.import_data
 ```
 
 ---

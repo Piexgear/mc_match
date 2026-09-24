@@ -3,6 +3,7 @@ import joblib
 from pathlib import Path
 import pandas as pd
 
+st.set_page_config(page_title="Valuation - Motorcycle Match", page_icon="🏍️")
 st.title("Valuate your MC")
 st.write("Please fill in the information needed to see the value on your MC")
 

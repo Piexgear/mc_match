@@ -1,9 +1,9 @@
 import pandas as pd
 import joblib
 from pathlib import Path
-from src.database import load_motorcycles_from_db
+from data.database import load_motorcycles_from_db
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 
 MODEL_PATH = BASE_DIR / "streamlit" / "models" / "motorcycle_classifier.joblib"
 

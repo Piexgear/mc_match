@@ -1,8 +1,8 @@
 import pandas as pd
-from src.database import get_db_connection, initialize_database
+from data.database import get_db_connection, initialize_database
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parents[2]
 DATA_PATH = BASE_DIR / "dataset" / "motorcycles_clean.csv"
 
 def migrate_data():
