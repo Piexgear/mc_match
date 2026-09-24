@@ -13,6 +13,11 @@ MC Match is a comprehensive data-driven platform designed to simplify motorcycle
   1. **Select Preferences:** Enter your motorcycle's characteristics (e.g., horsepower, torque, budget).
   2. **Price Estimation:** The property details are used to estimate the market price of the motorcycle.
 
+## Data Source
+The motorcycle specifications and market data used in this project are sourced from [2023 Bike Model Dataset](https://www.kaggle.com/datasets/peshimaammuzammil/2023-bike-model-dataset-all-data-you-need?select=bikes_data.csv) available on Kaggle.
+
+This dataset provides comprehensive technical specifications for a wide range of motorcycle models, which serves as the foundation for our matching algorithms and market valuation estimates.
+
 ## Tech Stack
 - **Frontend:** Streamlit
 - **Backend/ML Pipeline:** Python, Scikit-Learn, NumPy, SciPy
