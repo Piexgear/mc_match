@@ -99,3 +99,5 @@ This project was developed as a group for educational purposes.
 - David
   - @Piexgear
 
+## License
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
