@@ -2,7 +2,17 @@ import sqlite3
 import pandas as pd
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parents[3]
+# Find project root based on pyproject.toml
+def get_project_root() -> Path:
+    parents = list(Path(__file__).resolve().parents)
+    index = 2
+    for i, parent in enumerate(parents):
+        if (parent / "pyproject.toml").exists():
+            index = i
+            break
+    return parents[index]
+
+BASE_DIR = get_project_root()
 DB_PATH = BASE_DIR / "data" / "mc_match.db"
 
 def get_db_connection():
@@ -26,7 +36,7 @@ def update_motorcycle(motorcycle_id: int, column_name: str, new_value: str) -> b
     conn = get_db_connection()
     try:
         cursor = conn.cursor()
-        query = f"UPDATE motorcyles SET `{column_name}` = ? WHERE id = ?"
+        query = f"UPDATE motorcycles SET `{column_name}` = ? WHERE id = ?"
         cursor.execute(query, (new_value, motorcycle_id))
         conn.commit()
         return cursor.rowcount > 0
